@@ -1,0 +1,252 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(82, 170, 164);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgb(50, 120, 115);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 40px;
+    z-index: 1000;
+}
+
+nav {
+    width: 100%;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: opacity 0.3s ease;
+}
+
+.nav-links li a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Estilos para la sección de Perfil */
+#perfil {
+    background-color: rgb(50, 120, 115);
+    margin-top: 80px;
+    padding: 40px;
+    text-align: center;
+    color: white;
+}
+
+#perfil p {
+    margin-top: 20px;
+}
+
+main {
+    background-color: rgb(82, 170, 164);
+    min-height: 100vh;
+}
+#proyectos-conteiner {
+    margin-top: 2rem;
+    flex: 3;
+    text-decoration: none;
+}
+
+.proyectos {
+    margin: 8px;
+}
+
+.img-project {
+    width: 80%;
+    height: 10%;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px 1px rgba(32,32,32,0.3);
+    
+}
+
+.Integrantes {
+
+    display: inline-block;
+    width: 180px;
+    margin: 15px; padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: top;
+
+}
+
+.Integrantes img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.Integrantes h3 {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+#div-main {
+margin-top: 90px;
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+    align-items: flex-start;
+    flex-direction: row-reverse; 
+}
+
+.filtros {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 10%;
+}
+
+#footer-project {
+    background-color: rgb(50, 120, 115);
+    color: white;
+    padding-bottom: 1rem;
+    
+}
+#title-project {
+    font-size: 1.5rem;
+    color: rgb(2, 22, 103);
+    text-shadow: 1px 1px 1px rgba(32,32,32,0.3);
+    width: fit-content;
+    height: 8px;
+}
+
+#project-page {
+    font-family:Montserrat;
+    
+}
+.title-img{
+    font-size: 2.5rem;
+    color:rgb(17, 1, 75);
+    text-shadow: 1px 1px 1px rgba(32,32,32,0.3);
+}
+
+/* Estilos para la sección de Detalle */
+
+.header-detalle {
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(82, 170, 164);
+}
+
+.header-detalle nav {
+    width: 100%;
+    padding: 15px 40px;
+    background-color: rgb(50, 120, 115);
+    box-sizing: border-box;
+}
+
+.header-detalle div {
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 40px;
+}
+
+.header-detalle h2 {
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+.header-detalle ul {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.header-detalle li {
+    list-style: none;
+    background-color: rgba(255, 255, 255, 0.587);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.main-detalle {
+    margin-top: 20%;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 30px;
+}
+
+.main-detalle p {
+    line-height: 1.1;
+    text-align: justify;
+    padding-top: 20px;
+    padding-right: 50px;
+}
+
+.main-detalle aside {
+    background-color:rgba(255, 255, 255, 0.587);
+    padding: 50px;
+    border-radius: 10px;
+    height: fit-content;
+}
+
+.main-detalle aside ul{
+    list-style: none;
+    margin: 5px
+}
+
+.main-detalle aside li{
+    margin: 10px
+}
+
+.main-detalle aside a{
+    color: rgba(83, 80, 80, 0.852);
+    text-decoration: none;
+}
+
+.aside-detalle a:hover {
+    text-decoration: underline;
+}
+
+.seccion-detalle table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: rgba(128, 128, 128, 0.635);
+    color:white;
+}
+
+.seccion-detalle th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.footer-detalle {
+    text-align: center;
+    padding: 15px;
+    background-color: rgb(50, 120, 115);
+    color: white;
+    margin-top: 30px;
+}
