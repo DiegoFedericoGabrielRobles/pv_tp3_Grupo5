@@ -1,0 +1,79 @@
+import {useState} from "react";
+import { proyectoService } from "../services/proyectoService";
+import { TituloTabla } from "./Titulo";
+
+
+export const ListaProyecto = () => {
+    const [proyectos, setProyectos] = useState(proyectoService.obtenerProyecto());
+
+    const [nuevoProyecto, setNuevoProyecto] = useState({
+        titulo: "",
+        categoria: "",
+        estado: ""
+    });
+
+    const agregar = () => {
+        proyectoService.agregarProyecto({...nuevoProyecto});
+
+        setProyectos(proyectoService.obtenerProyecto());
+
+        setNuevoProyecto({
+        id:"",
+        titulo:"",
+        categoria:"",
+        estado:""
+        });
+    };
+
+    const [buscado, setBusqueda] = useState("");
+
+    const buscar = (buscado) => {
+        setBusqueda(buscado);    
+        if (buscado === "") {
+            setProyectos(proyectoService.obtenerProyecto());
+        }
+        else{
+            setProyectos(proyectoService.buscarProyecto(buscado));
+        }
+    };
+    
+    const eliminar = (id) => {
+        proyectoService.eliminarProyecto(id);
+        setProyectos(proyectoService.obtenerProyecto());
+    };   
+
+    return (
+        <section className="proyectos">
+            <TituloTabla nombre={"Lista proyectos"}/>
+            <label> Buscar </label>
+            <input type="text" placeholder="Buscar..." value={buscado} onChange={(e) => buscar(e.target.value)}/>
+
+            <table> 
+                <thead> 
+                    <th> ID </th>
+                    <th> NOMBRE </th>
+                    <th> CATEGORIA </th>
+                    <th> ESTADO </th>
+                </thead>
+                <tbody> 
+                    {proyectos.map((proyecto) => (
+                    <tr key={proyecto.id}>
+                        <td>{proyecto.id}</td>
+                        <td>{proyecto.titulo}</td>
+                        <td>{proyecto.categoria}</td>
+                        <td>{proyecto.estado}</td>
+                        <td><button onClick={() => eliminar(proyecto.id)}> Eliminar </button></td>
+                    </tr>
+                    ))}
+                    <tr>
+                        <td> <input type="number" placeholder="Id" value={nuevoProyecto.id} onChange={(n) => setNuevoProyecto({...nuevoProyecto,id: n.target.value})} /> </td>
+                        <td> <input type="text" placeholder="Titulo" value={nuevoProyecto.titulo} onChange={(n) => setNuevoProyecto({...nuevoProyecto,titulo: n.target.value})}/> </td>
+                        <td> <input type="text" placeholder="Categoria" value={nuevoProyecto.categoria} onChange={(n) => setNuevoProyecto({...nuevoProyecto,categoria: n.target.value})}/> </td>
+                        <td> <input type="text" placeholder="Estado" value={nuevoProyecto.estado} onChange={(n) => setNuevoProyecto({...nuevoProyecto,estado: n.target.value})}/> </td>
+                        <td><button onClick={() => agregar()}> Agregar </button> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    );  
+};
