@@ -1,0 +1,123 @@
+:root {
+    --color-primario: rgb(50, 120, 115);
+    --color-secundario: #445caa;
+    --color-fondo: rgb(90, 200, 193);
+    --color-texto: #1e293b;
+    --color-blanco: #ffffff;
+    --color-borde: #cbd5e1;
+
+    --radio: 10px;
+    --sombra: 0 4px 10px rgba(0,0,0,0.15);
+
+    --espaciado: 20px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.layout {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    min-height: 100vh;
+    gap: var(--espaciado);
+    padding: var(--espaciado);
+    background-color: var(--color-fondo);
+}
+
+.header {
+    background-color: var(--color-primario);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    list-style: none;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--color-texto);
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    color: var(--color-primario);
+}
+
+.proyectos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+input {
+    padding: 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    transition: 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 6px rgba(37,99,235,0.3);
+}
+
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: var(--radio);
+    background-color: var(--color-primario);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: var(--color-secundario);
+    transform: scale(1.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+th,
+td {
+    padding: 14px;
+    border: 1px solid var(--color-borde);
+    text-align: center;
+}
+
+tr:hover {
+    background-color: rgb(90, 200, 193);
+    color:white;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color:  rgb(50, 120, 115);
+    color: white;
+    border-radius: var(--radio);
+}
