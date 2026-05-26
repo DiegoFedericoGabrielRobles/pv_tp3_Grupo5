@@ -44,7 +44,7 @@ export const ListaProyecto = () => {
 
     return (
         <section className="proyectos">
-            <TituloTabla nombre={"Lista proyectos"}/>
+            <h3> Lista Proyectos </h3>
             <label> Buscar </label>
             <input type="text" placeholder="Buscar..." value={buscado} onChange={(e) => buscar(e.target.value)}/>
 
