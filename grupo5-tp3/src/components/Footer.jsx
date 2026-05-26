@@ -1,7 +1,6 @@
-// src/components/Footer.jsx
-import React from 'react';
+import React from "react";
 
-const Footer = () => {
+export const Footer = () => {
     return (
         <footer>
             <p>&copy; Programacion visual 2026</p>
@@ -9,4 +8,3 @@ const Footer = () => {
     );
 };
 
-export default Footer;

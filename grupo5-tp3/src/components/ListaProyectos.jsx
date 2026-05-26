@@ -1,10 +1,8 @@
 import {useState} from "react";
 import { proyectoService } from "../services/proyectoService";
-import { TituloTabla } from "./Titulo";
 
-
-export const ListaProyecto = () => {
-    const [proyectos, setProyectos] = useState(proyectoService.obtenerProyecto());
+export const ListaProyectos = () => {
+    const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
 
     const [nuevoProyecto, setNuevoProyecto] = useState({
         titulo: "",
@@ -15,7 +13,7 @@ export const ListaProyecto = () => {
     const agregar = () => {
         proyectoService.agregarProyecto({...nuevoProyecto});
 
-        setProyectos(proyectoService.obtenerProyecto());
+        setProyectos(proyectoService.obtenerProyectos());
 
         setNuevoProyecto({
         id:"",
@@ -30,7 +28,7 @@ export const ListaProyecto = () => {
     const buscar = (buscado) => {
         setBusqueda(buscado);    
         if (buscado === "") {
-            setProyectos(proyectoService.obtenerProyecto());
+            setProyectos(proyectoService.obtenerProyectos());
         }
         else{
             setProyectos(proyectoService.buscarProyecto(buscado));
@@ -39,7 +37,7 @@ export const ListaProyecto = () => {
     
     const eliminar = (id) => {
         proyectoService.eliminarProyecto(id);
-        setProyectos(proyectoService.obtenerProyecto());
+        setProyectos(proyectoService.obtenerProyectos());
     };   
 
     return (

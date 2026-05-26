@@ -1,7 +1,6 @@
-// src/components/Nav.jsx
 import React from 'react';
 
-const Nav = () => {
+export const Nav = () => {
     return (
         <nav>
             <ul className="nav-links">
@@ -12,5 +11,3 @@ const Nav = () => {
         </nav>
     );
 };
-
-export default Nav;
