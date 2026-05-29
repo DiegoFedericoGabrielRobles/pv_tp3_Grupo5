@@ -5,21 +5,38 @@ export const ListaProyectos = () => {
     const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
 
     const [nuevoProyecto, setNuevoProyecto] = useState({
+        id: "",
         titulo: "",
         categoria: "",
-        estado: ""
+        estado: "",
+        descripcion: "",
+        integrantes: ""
     });
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setNuevoProyecto({
+            ...nuevoProyecto,
+            [name]: value
+        });
+    };
+
     const agregar = () => {
-        proyectoService.agregarProyecto({...nuevoProyecto});
+        proyectoService.agregarProyecto({
+            ...nuevoProyecto,
+            equipo: nuevoProyecto.integrantes,
+            recursos: { pdf: "#", drive: "#", github: "#" }
+        });
 
         setProyectos(proyectoService.obtenerProyectos());
 
         setNuevoProyecto({
-        id:"",
-        titulo:"",
-        categoria:"",
-        estado:""
+            id: "",
+            titulo: "",
+            categoria: "",
+            estado: "",
+            descripcion: "",
+            integrantes: ""
         });
     };
 
@@ -48,10 +65,12 @@ export const ListaProyectos = () => {
 
             <table> 
                 <thead> 
-                    <th> ID </th>
-                    <th> NOMBRE </th>
-                    <th> CATEGORIA </th>
-                    <th> ESTADO </th>
+                    <tr>
+                        <th> ID </th>
+                        <th> NOMBRE </th>
+                        <th> CATEGORIA </th>
+                        <th> ESTADO </th>
+                    </tr>    
                 </thead>
                 <tbody> 
                     {proyectos.map((proyecto) => (
@@ -63,12 +82,37 @@ export const ListaProyectos = () => {
                         <td><button onClick={() => eliminar(proyecto.id)}> Eliminar </button></td>
                     </tr>
                     ))}
+
                     <tr>
-                        <td> <input type="number" placeholder="Id" value={nuevoProyecto.id} onChange={(n) => setNuevoProyecto({...nuevoProyecto,id: n.target.value})} /> </td>
-                        <td> <input type="text" placeholder="Titulo" value={nuevoProyecto.titulo} onChange={(n) => setNuevoProyecto({...nuevoProyecto,titulo: n.target.value})}/> </td>
-                        <td> <input type="text" placeholder="Categoria" value={nuevoProyecto.categoria} onChange={(n) => setNuevoProyecto({...nuevoProyecto,categoria: n.target.value})}/> </td>
-                        <td> <input type="text" placeholder="Estado" value={nuevoProyecto.estado} onChange={(n) => setNuevoProyecto({...nuevoProyecto,estado: n.target.value})}/> </td>
-                        <td><button onClick={() => agregar()}> Agregar </button> </td>
+                        <td> <input type="number" placeholder="Id" name="id" value={nuevoProyecto.id} onChange={handleChange} /> </td>
+                        <td> <input type="text" placeholder="Titulo" name="titulo" value={nuevoProyecto.titulo} onChange={handleChange}/> </td>
+                        <td> <input type="text" placeholder="Categoria" name="categoria" value={nuevoProyecto.categoria} onChange={handleChange}/> </td>
+                        <td> <input type="text" placeholder="Estado" name="estado" value={nuevoProyecto.estado} onChange={handleChange}/> </td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2">
+                            <input 
+                                type="text" 
+                                placeholder="Integrantes (Nombre y Rol)" 
+                                name="integrantes" 
+                                value={nuevoProyecto.integrantes} 
+                                onChange={handleChange} 
+                                style={{ width: "90%" }}
+                            />
+                        </td>
+                        <td colSpan="2">
+                            <input 
+                                type="text" 
+                                placeholder="Descripción" 
+                                name="descripcion" 
+                                value={nuevoProyecto.descripcion} 
+                                onChange={handleChange} 
+                                style={{ width: "90%" }}
+                            />
+                        </td>
+                        <td>
+                            <button onClick={() => agregar()}> Agregar </button> 
+                        </td>
                     </tr>
                 </tbody>
             </table>
