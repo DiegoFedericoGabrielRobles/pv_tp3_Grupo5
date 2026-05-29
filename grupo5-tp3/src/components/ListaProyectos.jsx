@@ -1,5 +1,8 @@
 import {useState} from "react";
 import { proyectoService } from "../services/proyectoService";
+import { ProyectoCard } from "./ProyectoCard";
+import { DetalleProyecto } from "./DetalleProyecto";
+import { Integrantes } from "./Integrantes";
 
 export const ListaProyectos = () => {
     const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
@@ -10,7 +13,14 @@ export const ListaProyectos = () => {
         categoria: "",
         estado: "",
         descripcion: "",
-        integrantes: ""
+
+        integrantes: [],
+
+        enlaces: {
+            github: "",
+            pdf: "",
+            drive: ""
+        }
     });
 
     const handleChange = (e) => {
@@ -20,6 +30,8 @@ export const ListaProyectos = () => {
             [name]: value
         });
     };
+
+    const [proyectoDetalle, setProyectoDetalle] = useState();
 
     const agregar = () => {
         proyectoService.agregarProyecto({
@@ -36,7 +48,14 @@ export const ListaProyectos = () => {
             categoria: "",
             estado: "",
             descripcion: "",
-            integrantes: ""
+
+            integrantes: [],
+
+            enlaces: {
+                github: "",
+                pdf: "",
+                drive: ""
+            }
         });
     };
 
@@ -59,63 +78,68 @@ export const ListaProyectos = () => {
 
     return (
         <section className="proyectos">
-            <h3> Lista Proyectos </h3>
-            <label> Buscar </label>
-            <input type="text" placeholder="Buscar..." value={buscado} onChange={(e) => buscar(e.target.value)}/>
 
-            <table> 
-                <thead> 
-                    <tr>
-                        <th> ID </th>
-                        <th> NOMBRE </th>
-                        <th> CATEGORIA </th>
-                        <th> ESTADO </th>
-                    </tr>    
-                </thead>
-                <tbody> 
-                    {proyectos.map((proyecto) => (
-                    <tr key={proyecto.id}>
-                        <td>{proyecto.id}</td>
-                        <td>{proyecto.titulo}</td>
-                        <td>{proyecto.categoria}</td>
-                        <td>{proyecto.estado}</td>
-                        <td><button onClick={() => eliminar(proyecto.id)}> Eliminar </button></td>
-                    </tr>
-                    ))}
+            <div className="buscador">
+                <label> BUSCAR PROYECTO </label>
+                <input type="text" placeholder="Buscar..." value={buscado} onChange={(e) => buscar(e.target.value)}/>
+            </div>
 
-                    <tr>
-                        <td> <input type="number" placeholder="Id" name="id" value={nuevoProyecto.id} onChange={handleChange} /> </td>
-                        <td> <input type="text" placeholder="Titulo" name="titulo" value={nuevoProyecto.titulo} onChange={handleChange}/> </td>
-                        <td> <input type="text" placeholder="Categoria" name="categoria" value={nuevoProyecto.categoria} onChange={handleChange}/> </td>
-                        <td> <input type="text" placeholder="Estado" name="estado" value={nuevoProyecto.estado} onChange={handleChange}/> </td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">
-                            <input 
-                                type="text" 
-                                placeholder="Integrantes (Nombre y Rol)" 
-                                name="integrantes" 
-                                value={nuevoProyecto.integrantes} 
-                                onChange={handleChange} 
-                                style={{ width: "90%" }}
-                            />
-                        </td>
-                        <td colSpan="2">
-                            <input 
-                                type="text" 
-                                placeholder="Descripción" 
-                                name="descripcion" 
-                                value={nuevoProyecto.descripcion} 
-                                onChange={handleChange} 
-                                style={{ width: "90%" }}
-                            />
-                        </td>
-                        <td>
-                            <button onClick={() => agregar()}> Agregar </button> 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                {proyectoDetalle && (<DetalleProyecto proyecto={proyectoDetalle}></DetalleProyecto>)}
+            </div>
+
+            <form className="contenedor-form">
+                <div className="form-titulo">
+                    <h2 className="form-titulo" titulo="AGREGAR PROYECTO"></h2>
+                </div>
+
+                <div className="seccion-form">
+                    <h3 titulo="INFORMACION PROYECTO"></h3>
+                    <input type="text" placeholder="Titulo" value={nuevoProyecto.titulo} onChange={(n) => setNuevoProyecto({...nuevoProyecto,titulo: n.target.value})}/>
+                    <input type="text" placeholder="Categoria" value={nuevoProyecto.categoria} onChange={(n) => setNuevoProyecto({...nuevoProyecto,categoria: n.target.value})}/>                        <input type="text" placeholder="Estado" value={nuevoProyecto.estado} onChange={(n) => setNuevoProyecto({...nuevoProyecto,estado: n.target.value})}/>
+                </div>
+
+                <div className="seccion-form">
+                    <h3 titulo="INTEGRANTES"></h3>
+                    <input 
+                        type="text" 
+                        placeholder="Nombre Integrante" 
+                        value={nuevoProyecto.integrantes.nombre} 
+                        onChange={handleChange} 
+                    />
+
+                    <input 
+                        type="text" 
+                        placeholder="Rol Integrante" 
+                        value={nuevoProyecto.integrantes.rol} 
+                        onChange={handleChange} 
+
+                    />
+  
+                    <input 
+                        type="text" 
+                        placeholder="Descripción" 
+                        value={nuevoProyecto.descripcion} 
+                        onChange={handleChange} 
+                    />
+                    <input type="button" className="btn-secundario" value="Agregar Integrante "onClick={() => agregarIntegrante()}/>
+                    <Integrantes integrantes={nuevoProyecto.integrantes}></Integrantes>
+                </div>
+
+                <div className="seccion-form">
+                        <h3 titulo="ENLACES"></h3>
+                        <input type="text" placeholder="GitHub" value={nuevoProyecto.enlaces.github} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,github:n.target.value}})}/>
+                        <input type="text" placeholder="PDF" value={nuevoProyecto.enlaces.pdf} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,pdf:n.target.value}})}/>
+                        <input type="text" placeholder="Drive" value={nuevoProyecto.enlaces.drive} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,drive:n.target.value}})}/>
+                    </div>
+
+                    <div className="seccion-form">
+                        <h3 titulo="DESCRIPCION PROYECTO"></h3>
+                        <textarea placeholder="Descripcion del Proyecto nuevo..." value={nuevoProyecto.descripcion} onChange={(n) => setNuevoProyecto({...nuevoProyecto,descripcion: n.target.value})}> </textarea>
+                    </div>
+                    
+                    <input type="button" className="btn-principal" value="Agregar" onClick={() => {agregar(); setProyectoDetalle()}}/>
+            </form>
         </section>
     );  
 };
