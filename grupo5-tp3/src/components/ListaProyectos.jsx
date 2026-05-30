@@ -1,145 +1,164 @@
 import {useState} from "react";
 import { proyectoService } from "../services/proyectoService";
-import { ProyectoCard } from "./ProyectoCard";
+import { Titulo } from "./Titulo";
 import { DetalleProyecto } from "./DetalleProyecto";
-import { Integrantes } from "./Integrantes";
 
 export const ListaProyectos = () => {
-    const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
+  const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
+  const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
-    const [nuevoProyecto, setNuevoProyecto] = useState({
-        id: "",
-        titulo: "",
-        categoria: "",
-        estado: "",
-        descripcion: "",
+  const [nuevoProyecto, setNuevoProyecto] = useState({
+    id: "",
+    titulo: "",   
+    categoria: "",
+    estado: "",
+    nombreIntegrantes: "",
+    rolIntegrantes: "",
+  });
 
-        integrantes: [],
+  const agregar = () => {
+    const {id, titulo, categoria, estado, nombreIntegrantes, rolIntegrantes} = nuevoProyecto;
+    if (!id || !titulo || !categoria || !estado || !nombreIntegrantes || !rolIntegrantes) {
+      alert("Debe completar todos los campos");
+      return;
+    }
 
-        enlaces: {
-            github: "",
-            pdf: "",
-            drive: ""
-        }
-    });
+    const idExiste = proyectos.some(p => p.id === Number(nuevoProyecto.id));
+    if (idExiste) {
+      alert("El ID ya existe. Por favor, Ponga un ID diferente.");
+      return;
+    }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNuevoProyecto({
-            ...nuevoProyecto,
-            [name]: value
-        });
-    };
+    proyectoService.agregarProyecto({id, titulo, categoria, estado, descripcion: "Sin descripcion", recursos: {github: "#", pdf: "#", drive: "#" }, integrantes: [{nombre: nombreIntegrantes, rol: rolIntegrantes}] });
+    setProyectos(proyectoService.obtenerProyectos());
+    setNuevoProyecto({ id: "", titulo: "", categoria: "", estado: "", nombreIntegrantes: "", rolIntegrantes: "" });
+  };
 
-    const [proyectoDetalle, setProyectoDetalle] = useState();
+  const [buscado, setBuscado] = useState("");
 
-    const agregar = () => {
-        proyectoService.agregarProyecto({
-            ...nuevoProyecto,
-            equipo: nuevoProyecto.integrantes,
-            recursos: { pdf: "#", drive: "#", github: "#" }
-        });
+  const buscar = (termino) => {
+    setBuscado(termino);
+    if (termino === "") {
+      setProyectos(proyectoService.obtenerProyectos());
+    } else {
+      setProyectos(proyectoService.buscarProyecto(termino));
+    }
+  };
 
-        setProyectos(proyectoService.obtenerProyectos());
+  const eliminar = (id) => {
+    proyectoService.eliminarProyecto(id);
+    if (proyectoSeleccionado?.id === id) {
+      setProyectoSeleccionado(null);
+    }
+    setProyectos(proyectoService.obtenerProyectos());
+  };
 
-        setNuevoProyecto({
-            id: "",
-            titulo: "",
-            categoria: "",
-            estado: "",
-            descripcion: "",
+  const seleccionar = (proyecto) => {
+    // Si hacemos clic en el mismo, lo cerramos (toggle)
+    setProyectoSeleccionado(proyectoSeleccionado?.id === proyecto.id ? null : proyecto);
+  };
 
-            integrantes: [],
+  return (
+    <section className="proyectos">
+      <Titulo />
+      <div className="contenedor-formulario">
+        <div className="seccion-formulario">
+          <h4>1. Informacion General</h4>
+          <div className="grid-input">
+            <input
+              type="number"
+              placeholder="ID"
+              value={nuevoProyecto.id}
+              onChange={(e) => setNuevoProyecto({ ...nuevoProyecto, id: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Titulo"
+              value={nuevoProyecto.titulo}
+              onChange={(e) => setNuevoProyecto({ ...nuevoProyecto, titulo: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Categoria"
+              value={nuevoProyecto.categoria}
+              onChange={(e) => setNuevoProyecto({ ...nuevoProyecto, categoria: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Estado"
+              value={nuevoProyecto.estado}
+              onChange={(e) => setNuevoProyecto({ ...nuevoProyecto, estado: e.target.value })}
+            />
+          </div>
+        </div>
 
-            enlaces: {
-                github: "",
-                pdf: "",
-                drive: ""
-            }
-        });
-    };
+        <div className="seccion-formulario">
+          <h4>2. Integrantes </h4>
+          <div className="grid-input">
+            <input
+              type="text"
+              placeholder="Nombre del Integrante"
+              value={nuevoProyecto.nombreIntegrantes}
+              onChange={(e) => setNuevoProyecto({ ...nuevoProyecto, nombreIntegrantes: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Rol del Integrante"
+              value={nuevoProyecto.rolIntegrantes}
+              onChange={(e) => setNuevoProyecto({ ...nuevoProyecto, rolIntegrantes: e.target.value })}
+            />
+          </div>
+        </div>
 
-    const [buscado, setBusqueda] = useState("");
+        <button className="btn-agregar" onClick={agregar}>Agregar</button>
+      </div>
 
-    const buscar = (buscado) => {
-        setBusqueda(buscado);    
-        if (buscado === "") {
-            setProyectos(proyectoService.obtenerProyectos());
-        }
-        else{
-            setProyectos(proyectoService.buscarProyecto(buscado));
-        }
-    };
-    
-    const eliminar = (id) => {
-        proyectoService.eliminarProyecto(id);
-        setProyectos(proyectoService.obtenerProyectos());
-    };   
+      <div className="seccion-busqueda">
+        <label>Filtrar por título:</label>
+        <input
+          type="text"
+          placeholder="Escriba para buscar: "
+          value={buscado}
+          onChange={(e) => buscar(e.target.value)}
+        />
+      </div>
 
-    return (
-        <section className="proyectos">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>CATEGORIA</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          {proyectos.map((proyecto) => (
+            <tr key={proyecto.id}>
+              <td>{proyecto.id}</td>
+              <td>{proyecto.titulo}</td>
+              <td>{proyecto.categoria}</td>
+              <td>{proyecto.estado}</td>
+              <td>
+                <button className="btn-ver" onClick={() => seleccionar(proyecto)}>
+                  {proyectoSeleccionado?.id === proyecto.id ? "Cerrar" : "Ver"}
+                </button>
+                <button className="btn-eliminar" onClick={() => eliminar(proyecto.id)}>Eliminar</button>
+              </td>
+            </tr>
+          ))}
 
-            <div className="buscador">
-                <label> BUSCAR PROYECTO </label>
-                <input type="text" placeholder="Buscar..." value={buscado} onChange={(e) => buscar(e.target.value)}/>
-            </div>
+        </tbody>
+      </table>
 
-            <div>
-                {proyectoDetalle && (<DetalleProyecto proyecto={proyectoDetalle}></DetalleProyecto>)}
-            </div>
-
-            <form className="contenedor-form">
-                <div className="form-titulo">
-                    <h2 className="form-titulo" titulo="AGREGAR PROYECTO"></h2>
-                </div>
-
-                <div className="seccion-form">
-                    <h3 titulo="INFORMACION PROYECTO"></h3>
-                    <input type="text" placeholder="Titulo" value={nuevoProyecto.titulo} onChange={(n) => setNuevoProyecto({...nuevoProyecto,titulo: n.target.value})}/>
-                    <input type="text" placeholder="Categoria" value={nuevoProyecto.categoria} onChange={(n) => setNuevoProyecto({...nuevoProyecto,categoria: n.target.value})}/>                        <input type="text" placeholder="Estado" value={nuevoProyecto.estado} onChange={(n) => setNuevoProyecto({...nuevoProyecto,estado: n.target.value})}/>
-                </div>
-
-                <div className="seccion-form">
-                    <h3 titulo="INTEGRANTES"></h3>
-                    <input 
-                        type="text" 
-                        placeholder="Nombre Integrante" 
-                        value={nuevoProyecto.integrantes.nombre} 
-                        onChange={handleChange} 
-                    />
-
-                    <input 
-                        type="text" 
-                        placeholder="Rol Integrante" 
-                        value={nuevoProyecto.integrantes.rol} 
-                        onChange={handleChange} 
-
-                    />
-  
-                    <input 
-                        type="text" 
-                        placeholder="Descripción" 
-                        value={nuevoProyecto.descripcion} 
-                        onChange={handleChange} 
-                    />
-                    <input type="button" className="btn-secundario" value="Agregar Integrante "onClick={() => agregarIntegrante()}/>
-                    <Integrantes integrantes={nuevoProyecto.integrantes}></Integrantes>
-                </div>
-
-                <div className="seccion-form">
-                        <h3 titulo="ENLACES"></h3>
-                        <input type="text" placeholder="GitHub" value={nuevoProyecto.enlaces.github} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,github:n.target.value}})}/>
-                        <input type="text" placeholder="PDF" value={nuevoProyecto.enlaces.pdf} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,pdf:n.target.value}})}/>
-                        <input type="text" placeholder="Drive" value={nuevoProyecto.enlaces.drive} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,drive:n.target.value}})}/>
-                    </div>
-
-                    <div className="seccion-form">
-                        <h3 titulo="DESCRIPCION PROYECTO"></h3>
-                        <textarea placeholder="Descripcion del Proyecto nuevo..." value={nuevoProyecto.descripcion} onChange={(n) => setNuevoProyecto({...nuevoProyecto,descripcion: n.target.value})}> </textarea>
-                    </div>
-                    
-                    <input type="button" className="btn-principal" value="Agregar" onClick={() => {agregar(); setProyectoDetalle()}}/>
-            </form>
-        </section>
-    );  
+      {proyectoSeleccionado && (
+        <div className="detalle-seleccionado">
+          <hr />
+          <h2>Detalles de: {proyectoSeleccionado.titulo}</h2>
+          <DetalleProyecto proyecto={proyectoSeleccionado} />
+        </div>
+      )}
+    </section>
+  );
 };
