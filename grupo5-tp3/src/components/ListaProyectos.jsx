@@ -16,7 +16,7 @@ export const ListaProyectos = () => {
 
     integrantes: [],
 
-    enlaces: {
+    recursos: {
       github: "",
       pdf: "",
       drive: ""
@@ -39,7 +39,7 @@ export const ListaProyectos = () => {
 
   const agregar = () => {
 
-    proyectoService.agregarProyecto([nuevoProyecto] );
+    proyectoService.agregarProyecto(nuevoProyecto);
     setProyectos(proyectoService.obtenerProyectos());
     setNuevoProyecto({ 
       id: "", 
@@ -47,7 +47,7 @@ export const ListaProyectos = () => {
       categoria: "", 
       estado: "",
       integrantes: [],
-      enlaces: {
+      recursos: {
         github: "",
         pdf: "",
         drive: ""
@@ -123,17 +123,17 @@ export const ListaProyectos = () => {
                               
         <div className="seccion-form">
           <h3> RECURSOS </h3>
-            <input type="text" placeholder="GitHub" value={nuevoProyecto.enlaces.github} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,github:n.target.value}})}/>
-            <input type="text" placeholder="PDF" value={nuevoProyecto.enlaces.pdf} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,pdf:n.target.value}})}/>
-            <input type="text" placeholder="Drive" value={nuevoProyecto.enlaces.drive} onChange={(n) => setNuevoProyecto({...nuevoProyecto,enlaces: {...nuevoProyecto.enlaces,drive:n.target.value}})}/>
+            <input type="text" placeholder="GitHub" value={nuevoProyecto.recursos.github} onChange={(n) => setNuevoProyecto({...nuevoProyecto,recursos: {...nuevoProyecto.recursos,github:n.target.value}})}/>
+            <input type="text" placeholder="PDF" value={nuevoProyecto.recursos.pdf} onChange={(n) => setNuevoProyecto({...nuevoProyecto,recursos: {...nuevoProyecto.recursos,pdf:n.target.value}})}/>
+            <input type="text" placeholder="Drive" value={nuevoProyecto.recursos.drive} onChange={(n) => setNuevoProyecto({...nuevoProyecto,recursos: {...nuevoProyecto.recursos,drive:n.target.value}})}/>
         </div>
       
         <div className="seccion-form">
           <h3 titulo="DESCRIPCION PROYECTO"></h3>
-          <textarea placeholder="Descripcion del Proyecto nuevo..." value={nuevoProyecto.descripcion} onChange={(n) => setNuevoProyecto({...nuevoProyecto,descripcion: n.target.value})}> </textarea>
+          <textarea placeholder="Descripcion del Proyecto" value={nuevoProyecto.descripcion} onChange={(n) => setNuevoProyecto({...nuevoProyecto,descripcion: n.target.value})}></textarea>
         </div>
                           
-        <input type="button" className="btn-principal" value="Agregar" onClick={() => {agregar(); setProyectoDetalle()}}/>
+        <input type="button" className="btn-principal" value="Agregar" onClick={() => agregar()}/>
       </form>
     </section>
   );
