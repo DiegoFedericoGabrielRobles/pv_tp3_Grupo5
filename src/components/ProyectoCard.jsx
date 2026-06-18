@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import { NavLink } from "react-router-dom";
 
 export const ProyectoCard = ({ proyecto, eliminar }) => {
-   const { titulo, estado, categoria } = proyecto;
+const { titulo, estado, categoria } = proyecto;
 
     return (
         <Card>

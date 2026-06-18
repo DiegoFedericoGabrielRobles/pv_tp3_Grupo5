@@ -21,14 +21,30 @@
 }
 
 .header{
-    background-color: var(--color-primario);
+background-color: var(--color-primario);
     color:white;
-    padding:25px;
-    text-align:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    gap:20px;
+
+    padding:20px;
 }
 
 main{
     flex: 1;
+}
+.logo-header{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+}
+.subtitulo-header{
+    font-size:0.9rem;
+    opacity:0.9;
+    margin-top:4px;
 }
 
 .nav{

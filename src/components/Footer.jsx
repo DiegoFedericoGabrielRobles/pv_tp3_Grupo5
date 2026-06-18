@@ -3,8 +3,21 @@ import Typography from "@mui/material/Typography";
 
 export const Footer = () => {
     return (
-        <Box sx={{ textAlign: "center", padding: 2, marginTop: 4 }} className="footer">
-            <Typography variant="body2"> © 2026 Plataforma Educativa </Typography>
+        <Box
+            component="footer"
+            className="footer"
+            sx={{
+                textAlign: "center",
+                py: 3,
+                mt: 4,
+            }}
+        >
+            <Typography variant="h6">
+                Plataforma Educativa
+            </Typography>
+            <Typography variant="caption">
+                © 2026 - Programación Visual
+            </Typography>
         </Box>
     );
 };
