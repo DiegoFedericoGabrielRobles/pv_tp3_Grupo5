@@ -1,7 +1,10 @@
 import { TituloUno } from "./TituloUno";
 import logo from "../assets/logo.png";
+import { useUsuario } from "../context/UsuarioContext";
 
 export const Header = () => {
+    const { usuario } = useUsuario();
+
     return (
         <header className="header">
 
@@ -17,6 +20,10 @@ export const Header = () => {
                 <p className="subtitulo-header">
                     Plataforma colaborativa para la gestión de proyectos
                 </p>
+            </div>
+
+            <div style={{ position: "absolute", top: "15px", right: "40px", color: "white" }}>
+                <strong>{usuario.nombre}</strong> — {usuario.rol}
             </div>
 
         </header>

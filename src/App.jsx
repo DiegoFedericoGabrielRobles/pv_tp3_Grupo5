@@ -9,26 +9,29 @@ import { DetalleProyecto } from './components/DetalleProyecto';
 import { Dashboard } from './views/Dashboard';
 import { ListaProyectos } from './views/ListaProyectos';
 import { PerfilUsuario } from './views/PerfilUsuario';
+import { UsuarioProvider } from './context/UsuarioContext';
 
 function App() {
 
   return (
-    <div className="layout">
-      <Header />
-      <Navegador />
+    <UsuarioProvider>
+      <div className="layout">
+        <Header />
+        <Navegador />
 
-      <main>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/proyectos" element={<ListaProyectos />} />
-          <Route path="/proyectos/:id" element={<DetalleProyecto />} />
-          <Route path="/perfil" element={<PerfilUsuario />} />
-        </Routes>
-      </main>
+        <main>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/proyectos" element={<ListaProyectos />} />
+            <Route path="/proyectos/:id" element={<DetalleProyecto />} />
+            <Route path="/perfil" element={<PerfilUsuario />} />
+          </Routes>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </UsuarioProvider>
   );
 };
 
